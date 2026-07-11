@@ -17,6 +17,11 @@ struct ContentView: View {
                     .foregroundStyle(.white)
                     .font(.largeTitle)
                     .bold()
+                
+                Text("burger")
+                    .foregroundStyle(.red)
+                    .bold()
+                
             }
         }
         .ignoresSafeArea()
