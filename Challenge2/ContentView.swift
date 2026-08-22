@@ -9,22 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ZStack {
-            Color.accentColor
-            VStack{
-               
-                Text("Serene")
-                    .foregroundStyle(.white)
-                    .font(.largeTitle)
-                    .bold()
-                
-                Text("no")
-                    .foregroundStyle(.red)
-                    .bold()
-                
+        TabView {
+            Tab("Clicker", systemImage: "pointer.arrow.ipad.rays") {
+                ClickerView()
             }
+            Tab("Posts", systemImage: "square.and.arrow.up.on.square.fill") {
+                PostsView()
+            }
+
         }
-        .ignoresSafeArea()
     }
 }
 
