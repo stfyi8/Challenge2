@@ -18,7 +18,7 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .bold()
                 
-                Text("burger")
+                Text("no")
                     .foregroundStyle(.red)
                     .bold()
                 
