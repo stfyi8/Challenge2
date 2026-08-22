@@ -9,16 +9,30 @@ import SwiftUI
 
 struct ClickerLeaderboardView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var scoreManager: ScoreManager
     
+    struct LeaderboardEntry: Identifiable {
+        let id = UUID()
+        let name: String
+        let score: Int
+    }
+    
+    @State private var entries: [LeaderboardEntry] = [
+        LeaderboardEntry(name: "Serene", score: 42),
+        LeaderboardEntry(name: "Andika", score: 28),
+        LeaderboardEntry(name: "Sparky", score: 27),
+        LeaderboardEntry(name: "Jiachen", score: 15)
+    ]
+
     var body: some View {
         NavigationStack {
             Group {
-                if scoreManager.scores.isEmpty {
-                    Text("No Scores Yet")
-                    Text("Be the first to get on the leaderboard!")
+                if entries.isEmpty {
+                    VStack {
+                        Text("No Scores Yet")
+                        Text("Be the first to get on the leaderboard!")
+                    }
                 } else {
-                    List(Array(scoreManager.scores.enumerated()), id: \.element.id) { index, entry in
+                    List(Array(entries.enumerated()), id: \.offset) { index, entry in
                         HStack {
                             // Rank Number
                             Text("#\(index + 1)")
@@ -26,16 +40,16 @@ struct ClickerLeaderboardView: View {
                                 .foregroundColor(index < 1 ? .yellow : .secondary)
                                 .frame(width: 35, alignment: .leading)
                             
-                            // Name & Date
+                            // Name
                             VStack(alignment: .leading) {
-                                Text(entry.name)
+                                Text("\(entry.name)")
                                     .font(.body)
                                     .fontWeight(.bold)
                             }
                             Spacer()
                             
                             // Score
-                            Text("\(entry.yourScore)")
+                            Text("\(entry.score)")
                                 .font(.title3)
                                 .fontWeight(.heavy)
                         }
@@ -53,13 +67,10 @@ struct ClickerLeaderboardView: View {
                     }
                 }
             }
-            .onAppear {
-                scoreManager.getNotes()
-            }
         }
     }
 }
 
 #Preview {
-    ClickerLeaderboardView(scoreManager: ScoreManager())
+    ClickerLeaderboardView()
 }

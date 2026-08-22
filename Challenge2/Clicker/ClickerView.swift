@@ -13,12 +13,10 @@ struct ClickerView: View {
     // everytime you want to put something on screen that changes
     // you need a state variable.
     @AppStorage("counter1") private var counter = 0
-    @State private var message = ""
     @State private var showLeaderboard = false
     @AppStorage("playerName") private var playerName = ""
     @State private var showNamePrompt = false
     @AppStorage("HighScore") private var highscore = 0
-    @ObservedObject var scoreManager: ScoreManager
     
     
     var body: some View {
@@ -51,18 +49,15 @@ struct ClickerView: View {
                         counter += 1
                         if highscore < counter {
                             highscore = counter
-                            scoreManager.addNote(playerName: playerName, yourScore: highscore)
                         }
                     }
                     .buttonStyle(.glassProminent)
-                    NavigationLink("Switch to fake player", destination: SecondPlayerView(scoreManager: ScoreManager()))
                 }
                 .sheet(isPresented: $showLeaderboard) {
-                    ClickerLeaderboardView(scoreManager: ScoreManager())
+                    ClickerLeaderboardView()
                 }
                 .padding()
                 .onAppear {
-                    scoreManager.getNotes()
                     if playerName.isEmpty {
                         showNamePrompt = true
                     }
@@ -78,5 +73,5 @@ struct ClickerView: View {
 
 
 #Preview {
-    ClickerView(scoreManager: ScoreManager())
+    ClickerView()
 }
